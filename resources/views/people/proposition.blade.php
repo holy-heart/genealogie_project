@@ -5,8 +5,8 @@
 @section('content')
     
     <div>
-        <table>
-            <thead>
+        <table border="1" cellpadding="8" cellspacing="0" style="border-collapse: collapse; width: 100%; text-align: left;">
+            <thead style="background-color: #f2f2f2;">
                 <tr>
                     <th>Nom</th>
                     <th>Prénom</th>

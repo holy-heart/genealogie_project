@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Person;
 use App\Models\Relationship;
 use App\Models\User;
+use App\Models\Propositions;
 
 class PersonController extends Controller
 {
@@ -37,13 +38,14 @@ class PersonController extends Controller
         }
 
         $request->validate([
-            'first_name'    => 'required|string|max:255',
-            'last_name'     => 'required|string|max:255',
-            'birth_name'    => 'nullable|string|max:255',
-            'middle_names'  => 'nullable|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name'  => 'required|string|max:255',
+            'birth_name'  => 'nullable|string|max:255',
+            'middle_names'=> 'nullable|string|max:255',
             'date_of_birth' => 'nullable|date',
             'id' => 'nullable|integer',
         ]);
+
 
         $person = new Person();
         $person->first_name= ucfirst(strtolower($request->first_name));
@@ -129,12 +131,13 @@ class PersonController extends Controller
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required|string',
-            'first_name'    => 'required|string|max:255',
-            'last_name'     => 'required|string|max:255',
-            'birth_name'    => 'nullable|string|max:255',
-            'middle_names'  => 'nullable|string|max:255',
+            'first_name' => 'required|string|max:255',
+            'last_name'   => 'required|string|max:255',
+            'birth_name'  => 'nullable|string|max:255',
+            'middle_names' => 'nullable|string|max:255',
             'date_of_birth' => 'nullable|date',
         ]);
+
 
         $userv = User::where('email', $request->email)->first();
 
@@ -213,7 +216,7 @@ class PersonController extends Controller
         auth()->logout();
 
 
-        return redirect()->route('people.index')->with('success', 'vous avez cree cotre compte bravo, conncecter vous');
+        return redirect()->route('people.index')->with('success', "vous avez cree cotre compte en tant qu'invté bravo, conncecter vous");
     }
 
 
@@ -230,64 +233,61 @@ class PersonController extends Controller
     public function saveproposition($id, $person, $link)
     {   
 
-        $data = [
-            'person' => $person,
-            'link'=> $link,
-            'person2' => strval($id), 
-            'validation' => 0,
-            'refus'=> 0
-        ];
-        $R = session("Rela" , []);
-        $R[] = $data;
+                
+        $propositions = new Propositions();
+        $propositions->created_by = auth()->id();
+        $propositions->person = $person;
+        $propositions->link = $link;
+        $propositions->person2 = strval($id);
+        $propositions->save();
 
-        session(['Rela'=> $R]);
-        return redirect()->route('people.index')->with('success', 'proposition sauvegardée');
+        
+        return redirect()->route('people.index')->with('success', "proposition sauvegardée, d'autres utilisateur peuvent valider ou refuser cette proposition dans 'Valider des propositions'");
     }
     public function listp(){
-        return view('people.listeproposition');
+        $propositions = Propositions::with('createdBy')->get();
+
+        return view('people.listeproposition', compact('propositions'));
     }
 
-    public function valider($p, $p2,$link)
+    public function valider($id, $p, $p2, $link)
     {
-        $R = session('Rela', []);
+        $propositions = Propositions::findOrFail($id);
 
-        foreach ($R as $key => $r) {
-            if ($r['person'] === $p && $r['person2'] === $p2 && $r['link'] === $link) {
-                $R[$key]['validation'] += 1;
-                if ($R[$key]['validation'] >= 3  || auth()->id() === $p || auth()->id() === $p2) {
-                    unset($R[$key]);
-                    $relationship = new Relationship();
-                    $relationship->parent_id = ($r['link'] === 'child') ? $p2 : $p;
-                    $relationship->child_id = ($r['link'] === 'child') ? $p : $p2;
-                    $relationship->created_by = auth()->id() ?? 0;
-                    $relationship->save();
-                    session(['Rela' => array_values($R)]);
-                    return redirect()->route('people.index')->with('success', 'Relationship validated.');
-                }
-
-                session(['Rela' => $R]);
-                return redirect()->route('people.index')->with('success', 'Validation incremented.');
-            }
+        $propositions->validation += 1;
+        if ($propositions->validation >= 3  || strval(auth()->id()) === $p || strval(auth()->id()) === $p2) {
+            $relationship = new Relationship();
+            $relationship->parent_id = ($propositions->link === 'child') ? $p2 : $p;
+            $relationship->child_id = ($propositions->link === 'child') ? $p : $p2;
+            $relationship->created_by = auth()->id() ?? 0;
+            $relationship->save();
+            $propositions->delete();
+            return redirect()->route('people.index')->with('success', 'Relationship validated.');
         }
-        return redirect()->route('people.index')->with('error', 'Proposition not found.');
+        $propositions->save();
+        $propIds = session('propo', []);
+
+        $propIds[] = $id;
+        session(['propo' => $propIds]); 
+
+        return redirect()->route('people.index')->with('success', 'vous avez soutenu la relation avec +1.');
     }
 
-    public function refuser($p, $p2,$link)
+    public function refuser($id, $p, $p2,$link)
     {
-        $R = session('Rela', []);
+        $propositions = Propositions::findOrFail($id);
 
-        foreach ($R as $key => $r) {
-            if ($r['person'] === $p && $r['person2'] === $p2 && $r['link'] === $link) {
-                $R[$key]['refus'] += 1;
-                if ($R[$key]['refus'] >= 3 || auth()->id() === $p || auth()->id() === $p2) {
-                    unset($R[$key]);
-                    session(['Rela' => array_values($R)]);
-                    return redirect()->route('people.index')->with('success', 'Relationship suprimé.');
-                }
-                session(['Rela' => $R]);
-                return redirect()->route('people.index')->with('success', 'refus incrementé.');
-            }
+        $propositions->refus += 1;
+        if ($propositions->refus >= 3  || strval(auth()->id()) === $p || strval(auth()->id()) === $p2) {
+            $propositions->delete();
+            return redirect()->route('people.index')->with('success', 'Relationship deleted.');
         }
-        return redirect()->route('people.index')->with('error', 'Proposition not found.');
+        $propositions->save();
+
+        $propIds = session('propo', []);
+        $propIds[] = $id;
+        session(['propp' => $propIds]); 
+
+        return redirect()->route('people.index')->with('success', 'vous avez affaiblie la relation avec +1.');
     }
 }

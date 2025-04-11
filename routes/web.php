@@ -29,8 +29,8 @@ Route::post('/checkinvit', [PersonController::class, 'checkinvit'])->name('peopl
 Route::post('/checksign2', [PersonController::class, 'checksign2'])->name('people.checksign2');
 Route::get('/proposer/{id}', [PersonController::class,'proposer'])->name('people.proposer');
 Route::get('/saveproposition/{id}/{person}/{link}', [PersonController::class, 'saveproposition'])->name('people.saveproposition');
-Route::get('/valider/{p}/{p2}/{link}', [PersonController::class, 'valider'])->name('people.valider');
-Route::get('/refuser/{p}/{p2}/{link}', [PersonController::class, 'refuser'])->name('people.refuser');
+Route::get('/valider/{id}/{p}/{p2}/{link}', [PersonController::class, 'valider'])->name('people.valider');
+Route::get('/refuser/{id}/{p}/{p2}/{link}', [PersonController::class, 'refuser'])->name('people.refuser');
 
 
 
@@ -68,4 +68,4 @@ Route::get('/test-parentlink', function() {
     // Dump complet pour debug
     dump($result);
     dump(DB::getQueryLog());
-});
+})->name('people.test-parentlink');;
