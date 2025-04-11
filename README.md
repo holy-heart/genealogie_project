@@ -13,10 +13,13 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 ## Fonctionnalités principales
 
-- **Gestion des personnes** : Création, consultation et modification des profils
-- **Système de parenté** : Recherche des liens familiaux entre personnes
-- **Workflow collaboratif** : Proposition et validation des modifications
-- **Authentification**: Avec système d'invitation
+**Gestion des personnes** : Création, consultation et modification des profils
+
+**Système de parenté** : Recherche des liens familiaux entre personnes
+
+**Workflow collaboratif** : Proposition et validation des modifications
+
+* [ ] **Authentification**: Avec système d'invitation
 
 ## Structure de la base de données
 
