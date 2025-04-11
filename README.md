@@ -19,19 +19,24 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 **Workflow collaboratif** : Proposition et validation des modifications
 
-* [ ] **Authentification**: Avec système d'invitation
+**Authentification**: Avec système d'invitation
 
 ## Structure de la base de données
 
 ![1744406064213](image/README/1744406064213.png)
 
-Tables principales :
+### Demo video courte :
 
-- `users` : Gestion des comptes utilisateurs
-- `people` : Stocke les informations des personnes
-- `relationships` : Gère les liens familiaux
-- `modifications` : Suivi des propositions de changements
-- `invitations` : Gestion des codes d'accès
+[Video 1 ](https://drive.google.com/file/d/1RSpbeD9qashCgYtAcTE1mT94uOop7TTL/view?usp=sharing):
+
+- demonstration des restrictions par rapport au lien familiaux
+- creation de compte associé a un profil
+- creation des profils des membre de sa famille, et invitation via code
+
+[Video 2](https://drive.google.com/file/d/1cLUrU0Tz_OED3ncRD4pwQmASI0NfcvQ9/view?usp=sharing) :
+
+- demonstration des restrictions pour la proposition de liens familiaux
+- validation d'une proposition par un des principaux concerné
 
 ## Routes API
 
@@ -83,7 +88,8 @@ Tables principales :
 2. `composer install`
 3. Créer et configurer `.env`
 4. `php artisan migrate --seed`
-5. `php artisan serve`
+5. cree un premier user dans phpmyadmin
+6. `php artisan serve`
 
 ## Tests
 
