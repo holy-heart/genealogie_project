@@ -84,12 +84,12 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 ## Installation
 
-1. Cloner le dépôt
-2. `composer install`
-3. Créer et configurer `.env`
-4. `php artisan migrate --seed`
-5. cree un premier user dans phpmyadmin
-6. `php artisan serve`
+1. [ ] Cloner le dépôt
+2. [ ] `composer install`
+3. [ ] Créer et configurer `.env`
+4. [ ] `php artisan migrate --seed`
+5. [ ] cree un premier user dans phpmyadmin
+6. [ ] `php artisan serve`
 
 ## Tests
 
