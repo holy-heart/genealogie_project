@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
-# Généalogie Collaborative
+# Demo Généalogie Collaborative
 
 Une application web Laravel pour gérer des arbres généalogiques avec validation collaborative des modifications.
 
@@ -20,7 +20,7 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 ## Structure de la base de données
 
-![1744313387270](image/README/1744313387270.png)
+![1744406064213](image/README/1744406064213.png)
 
 Tables principales :
 

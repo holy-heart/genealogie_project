@@ -11,7 +11,7 @@
         <div style="padding: 10px; border-bottom: 1px solid #ccc; display: flex; justify-content: space-between; align-items: center;">
             <img src="{{ asset('images/LOGO-OCD.png') }}" alt="logo" width="150">
             <div>
-                <h1 style="margin: 0;"><a href="{{ route('people.index') }}" style="margin-right: 10px;">Généalogie Collaborative</a></h1>
+                <h1 style="margin: 0;"><a href="{{ route('people.index') }}" style="margin-right: 10px;">Demo Généalogie Collaborative</a></h1>
                 <p>ici, la réponse a <a href="{{ route('people.test-parentlink') }}">Partie 2</a></p>
             </div>
 
