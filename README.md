@@ -9,17 +9,17 @@
 
 # Demo Généalogie Collaborative
 
-Une application web Laravel pour gérer des arbres généalogiques avec validation collaborative des modifications.
+Développement d’une application Laravel permettant la création de profils familiaux liés par relations, l’authentification d’utilisateurs, et la validation communautaire de propositions de liens familiaux.
 
 ## Fonctionnalités principales
 
 **Gestion des personnes** : Création, consultation et modification des profils
 
-**Système de parenté** : Recherche des liens familiaux entre personnes
+**Système de parenté** : Création et proposition des liens familiaux entre personnes
 
 **Workflow collaboratif** : Proposition et validation des modifications
 
-**Authentification**: Avec système d'invitation
+**Authentification**: En s'inscrivant, se connectant, ou avec système d'invitation
 
 ## Structure de la base de données
 
@@ -40,11 +40,11 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 ### Compte Admin
 
-'name' => 'Admin'
+'name' => 'Test User',
 
-'email' => 'admin@admin.fr'
+'email' => 'test@example.com',
 
-'password' => 'admin'
+'password'=> 'test',
 
 ## Routes API
 
@@ -54,8 +54,12 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 - `POST /logout` - Déconnexion
 - `GET /sign` - Page d'inscription
 - `POST /checksign` - Traitement de l'inscription
+
+### Invitation
+
 - `GET /invitcode` - Page de code d'invitation
 - `POST /checkinvit` - Validation du code d'invitation
+- `POST /checksign2` - Traitement de l'inscription de l'invité et association avec son profil
 
 ### Gestion des personnes
 
@@ -68,10 +72,11 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 - `GET /proposer/{id}` - Page de proposition de modification
 - `GET /saveproposition/{id}/{person}/{link}` - Sauvegarde une proposition
+- `GET /listp` - Liste toutes les propositions
 - `GET /valider/{p}/{p2}/{link}` - Valide une modification
 - `GET /refuser/{p}/{p2}/{link}` - Rejette une modification
 
-### Outils
+### Partie 2
 
 - `GET /test-parentlink` - Test de la recherche de parenté
 
@@ -79,9 +84,9 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 1. **Proposition** :
 
-   - Un utilisateur authentifié propose un changement via `/proposer/{id}`
+   - Un utilisateur authentifié propose un liens via `/proposer/{id}` pour d'autre personnes
    - La proposition est enregistrée dans `modifications` avec statut "pending"
-2. **Validation/Rejet** :
+3. **Validation/Rejet** :
 
    - Un autre utilisateur peut :
      - Valider (`/valider`) → applique les changements et met à jour le statut
@@ -89,20 +94,34 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 
 ## Installation
 
-1. [ ] Cloner le dépôt
-2. [ ] `composer install`
-3. [ ] Créer et configurer `.env`
-4. [ ] `php artisan migrate`
-5. [ ] cree un premier user dans phpmyadmin
-6. [ ] `php artisan serve`
+### Prérequis
 
-## Tests partie 
+- PHP 8.0+
+
+- Composer 2.0+
+
+- MySQL/MariaDB
+
+### Etapes
+
+- Cloner le dépôt
+- `composer install`
+- Créer et configurer `.env`
+- `php artisan migrate`
+- cree un premier user dans phpmyadmin
+- `php artisan serve`
+
+## Tests partie 2
 
 Le endpoint `/test-parentlink` permet de tester la recherche de liens familiaux avec une fonction recursive :
 
 - Affiche le degré de parenté
 - Montre le chemin entre deux personnes
 - Donne des métriques de performance
+
+## Développé par Yacine FEZOUI
+
+yacine.fezoui2002@gmail.com
 
 ---
 
