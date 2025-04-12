@@ -38,6 +38,14 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
 - demonstration des restrictions pour la proposition de liens familiaux
 - validation d'une proposition par un des principaux concerné
 
+### Compte Admin
+
+'name' => 'Admin'
+
+'email' => 'admin@admin.fr'
+
+'password' => 'admin'
+
 ## Routes API
 
 ### Authentification
@@ -78,20 +86,17 @@ Une application web Laravel pour gérer des arbres généalogiques avec validati
    - Un autre utilisateur peut :
      - Valider (`/valider`) → applique les changements et met à jour le statut
      - Rejeter (`/refuser`) → marque la proposition comme rejetée
-3. **Historique** :
-
-   - Toutes les modifications sont conservées pour traçabilité
 
 ## Installation
 
 1. [ ] Cloner le dépôt
 2. [ ] `composer install`
 3. [ ] Créer et configurer `.env`
-4. [ ] `php artisan migrate --seed`
+4. [ ] `php artisan migrate`
 5. [ ] cree un premier user dans phpmyadmin
 6. [ ] `php artisan serve`
 
-## Tests
+## Tests partie 
 
 Le endpoint `/test-parentlink` permet de tester la recherche de liens familiaux avec une fonction recursive :
 
